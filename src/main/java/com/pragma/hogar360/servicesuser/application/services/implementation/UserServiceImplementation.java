@@ -18,7 +18,6 @@ public class UserServiceImplementation implements UserService {
     @Override
     public SaveUserResponse saveUser(SaveUserRequest request) {
         userServicePort.saveUser(userDtoMapper.requestToModel(request));
-        return new SaveUserResponse("ok", LocalDateTime.now());
+        return new SaveUserResponse("User created", LocalDateTime.now());
     }
-
 }

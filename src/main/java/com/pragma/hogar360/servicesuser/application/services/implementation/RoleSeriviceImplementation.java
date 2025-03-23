@@ -19,7 +19,7 @@ public class RoleSeriviceImplementation implements RoleService {
     @Override
     public SaveRoleResponse saveRole(SaveRoleRequest request){
          roleServicePort.saveRole(roleDtoMapper.requesToModel(request));
-         return new SaveRoleResponse("ok", LocalDateTime.now());
+         return new SaveRoleResponse("Role created", LocalDateTime.now());
     }
 
 }
