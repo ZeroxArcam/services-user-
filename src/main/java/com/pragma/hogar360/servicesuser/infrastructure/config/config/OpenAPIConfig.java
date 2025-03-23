@@ -1,4 +1,4 @@
-package com.pragma.hogar360.servicesuser.infrastructure.config;
+package com.pragma.hogar360.servicesuser.infrastructure.config.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
