@@ -3,6 +3,7 @@ package com.pragma.hogar360.servicesuser.infrastructure.config.endpoints.rest;
 import com.pragma.hogar360.servicesuser.application.dto.request.SaveUserRequest;
 import com.pragma.hogar360.servicesuser.application.dto.response.SaveUserResponse;
 import com.pragma.hogar360.servicesuser.application.services.UserService;
+import com.pragma.hogar360.servicesuser.infrastructure.config.utils.constants.Constants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -21,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
-@Tag(name = "users", description = "Operations related to users")
+@Tag(name = Constants.NAME_ENDPOINT, description = Constants.DESCRIPTION_ENDPOINT)
 public class UserController {
     private final UserService userService;
 
     @PostMapping("/")
-    @Operation(summary = "Save a new user", description = "Saves a new user in the system.")
+    @Operation(summary = Constants.SUMARY_ENDPOINT, description = Constants.SUMARY_DSCRIPTION_ENDPOINT)
     @ApiResponse(responseCode = "201", description = "User created", content = @Content(schema = @Schema(implementation = SaveUserResponse.class), examples = @ExampleObject(value = "User created")))
     @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = String.class), examples = @ExampleObject(value = "\"Name cannot exceed 50 characters.\"\n \"Description cannot exceed 90 characters.\" ")))
     @ApiResponse(responseCode = "404", description = "Role not found", content = @Content(schema = @Schema(implementation = String.class), examples = @ExampleObject(value = "Role not found.")))

@@ -152,6 +152,81 @@ class UserUseCaseTest {
 
         assertThrows(InvalidAgeException.class, () -> userUseCase.saveUser(userModel));
     }
+    @Test
+    void saveUser_shouldThrowExceptionWhenBirthDateIsInFuture() {
+        UserModel userModel = UserModelFactory.createDefaultUserModel();
+        userModel.setBirthDate(LocalDate.now().plusDays(1)); // Fecha futura
+
+        when(rolePersistencePort.existsByName(userModel.getRole().getName())).thenReturn(true);
+        when(userPersistencePort.existsByEmail(userModel.getEmail())).thenReturn(false);
+        when(userPersistencePort.existsByIdNumber(userModel.getIdNumber())).thenReturn(false);
+        when(userPersistencePort.existsByPhoneNumber(userModel.getPhoneNumber())).thenReturn(false);
+
+        assertThrows(InvalidParameterException.class, () -> userUseCase.saveUser(userModel));
+    }
+    @Test
+    void saveUser_shouldThrowNullPointerExceptionWhenNameIsNull() {
+        UserModel userModel = UserModelFactory.createDefaultUserModel();
+        userModel.setName(null);
+        when(rolePersistencePort.existsByName(userModel.getRole().getName())).thenReturn(true);
+
+        assertThrows(NullPointerException.class, () -> userUseCase.saveUser(userModel));
+    }
+
+    @Test
+    void saveUser_shouldThrowEmptyNameExceptionWhenNameIsEmpty() {
+        UserModel userModel = UserModelFactory.createDefaultUserModel();
+        userModel.setName("");
+        when(rolePersistencePort.existsByName(userModel.getRole().getName())).thenReturn(true);
+
+        assertThrows(EmptyNameException.class, () -> userUseCase.saveUser(userModel));
+    }
+
+    @Test
+    void saveUser_shouldThrowNullPointerExceptionWhenLastNameIsNull() {
+        UserModel userModel = UserModelFactory.createDefaultUserModel();
+        userModel.setLastName(null);
+        when(rolePersistencePort.existsByName(userModel.getRole().getName())).thenReturn(true);
+
+        assertThrows(NullPointerException.class, () -> userUseCase.saveUser(userModel));
+    }
+    
+
+    @Test
+    void saveUser_shouldThrowExceptionWhenPhoneNumberContainsLetters() {
+        UserModel userModel = UserModelFactory.createDefaultUserModel();
+        userModel.setPhoneNumber("123abc456");
+        when(rolePersistencePort.existsByName(userModel.getRole().getName())).thenReturn(true);
+
+        assertThrows(InvalidPhoneNumberException.class, () -> userUseCase.saveUser(userModel));
+    }
+
+    @Test
+    void saveUser_shouldThrowExceptionWhenIdNumberContainsLetters() {
+        UserModel userModel = UserModelFactory.createDefaultUserModel();
+        userModel.setIdNumber("123abc456");
+        when(rolePersistencePort.existsByName(userModel.getRole().getName())).thenReturn(true);
+
+        assertThrows(InvalidIdentificationException.class, () -> userUseCase.saveUser(userModel));
+    }
+
+    @Test
+    void saveUser_shouldSaveUserWhenAgeIsMinimum() {
+        UserModel userModel = UserModelFactory.createDefaultUserModel();
+        userModel.setBirthDate(LocalDate.now().minusYears(18));
+        when(rolePersistencePort.existsByName(userModel.getRole().getName())).thenReturn(true);
+        when(userPersistencePort.existsByEmail(userModel.getEmail())).thenReturn(false);
+        when(userPersistencePort.existsByIdNumber(userModel.getIdNumber())).thenReturn(false);
+        when(userPersistencePort.existsByPhoneNumber(userModel.getPhoneNumber())).thenReturn(false);
+        when(userPersistencePort.encode(userModel.getPassword())).thenReturn("encodedPassword");
+        when(userPersistencePort.saveUser(any(UserModel.class))).thenReturn(userModel);
+
+        UserModel savedUser = userUseCase.saveUser(userModel);
+
+        assertNotNull(savedUser);
+        assertEquals(userModel, savedUser);
+        verify(userPersistencePort, times(1)).saveUser(any(UserModel.class));
+    }
 
 
 }
