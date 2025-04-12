@@ -1,6 +1,7 @@
 package com.pragma.hogar360.servicesuser.application.mappers;
 
 import com.pragma.hogar360.servicesuser.application.dto.request.SaveUserRequest;
+import com.pragma.hogar360.servicesuser.application.dto.response.JwtAuthenticationResponse;
 import com.pragma.hogar360.servicesuser.application.dto.response.UserResponse;
 import com.pragma.hogar360.servicesuser.domain.model.UserModel;
 import org.mapstruct.Mapper;
@@ -10,9 +11,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserDtoMapper {
-    //String name,String lastName,String idNumber,String phoneNumber,
-    // LocalDate birthDate, String email,String password,String role) {
-    //}
+
     @Mapping(source="name",target="name")
     @Mapping(source="lastName",target="lastName")
     @Mapping(source="idNumber",target="idNumber")
@@ -34,5 +33,4 @@ public interface UserDtoMapper {
             model.getRoleName()
         );
     }
-
 }

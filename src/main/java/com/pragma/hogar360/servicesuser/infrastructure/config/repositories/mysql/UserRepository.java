@@ -1,5 +1,6 @@
 package com.pragma.hogar360.servicesuser.infrastructure.config.repositories.mysql;
 
+import com.pragma.hogar360.servicesuser.domain.model.UserModel;
 import com.pragma.hogar360.servicesuser.infrastructure.config.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,6 +11,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByEmail(String email);
     boolean existsByIdNumber(String idNumber);
     boolean existsByPhoneNumber(String phoneNumber);
-
-    //UserEntity findByPassword(String password);
+    Optional<UserEntity> getUserById(Long id);
 }

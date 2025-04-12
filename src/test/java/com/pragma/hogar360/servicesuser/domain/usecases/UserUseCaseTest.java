@@ -3,6 +3,7 @@ package com.pragma.hogar360.servicesuser.domain.usecases;
 import com.pragma.hogar360.servicesuser.domain.exceptions.*;
 import com.pragma.hogar360.servicesuser.domain.model.RoleModel;
 import com.pragma.hogar360.servicesuser.domain.model.UserModel;
+import com.pragma.hogar360.servicesuser.domain.ports.in.UserServicePort;
 import com.pragma.hogar360.servicesuser.domain.ports.out.RolePersistencePort;
 import com.pragma.hogar360.servicesuser.domain.ports.out.UserPersistencePort;
 import com.pragma.hogar360.servicesuser.factory.RoleModelFactory;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -23,11 +25,12 @@ class UserUseCaseTest {
     @Mock
     private UserPersistencePort userPersistencePort;
 
+    @InjectMocks
+    private UserUseCase userUseCase;
+
     @Mock
     private RolePersistencePort rolePersistencePort;
 
-    @InjectMocks
-    private UserUseCase userUseCase;
 
     @BeforeEach
     void setUp() {
@@ -58,6 +61,98 @@ class UserUseCaseTest {
 
         assertThrows(RoleNotFoundException.class, () -> userUseCase.saveUser(userModel));
     }
+    @Test
+    void getUserByEmail_shouldReturnUserWhenEmailExists(){
+        String email="valid_email@example.com";
+        UserModel userModel = UserModelFactory.createUserModelWithEmail(email);
+        when(userPersistencePort.findByEmail(email)).thenReturn(Optional.of(userModel));
+
+        Optional<UserModel> result = userUseCase.getUserByEmail(email);
+
+        assertTrue(result.isPresent());
+        assertEquals(userModel,result.get());
+        verify(userPersistencePort,times(1)).findByEmail(email);
+    }
+    @Test
+    void getUserByEmail_shouldReturnEmptyOptionalWhenEmailDoesNotExist() {
+        String email = "nonexistent@example.com";
+        when(userPersistencePort.findByEmail(email)).thenReturn(Optional.empty());
+
+        Optional<UserModel> result = userUseCase.getUserByEmail(email);
+
+        assertFalse(result.isPresent());
+        verify(userPersistencePort, times(1)).findByEmail(email);
+    }
+
+
+
+    @Test
+    void getUserByEmail_shouldReturnEmptyOptionalWhenEmailIsNull() {
+        String email = null;
+        when(userPersistencePort.findByEmail(null)).thenReturn(Optional.empty());
+
+        Optional<UserModel> result = userUseCase.getUserByEmail(email);
+
+        assertFalse(result.isPresent());
+        verify(userPersistencePort, times(1)).findByEmail(null);
+    }
+
+    @Test
+    void getUserByEmail_shouldReturnEmptyOptionalWhenEmailIsEmpty() {
+        String email = "";
+        when(userPersistencePort.findByEmail("")).thenReturn(Optional.empty());
+
+        Optional<UserModel> result = userUseCase.getUserByEmail(email);
+
+        assertFalse(result.isPresent());
+        verify(userPersistencePort, times(1)).findByEmail("");
+    }
+
+    @Test
+    void getUserById_shouldReturnUserWhenIdExists() {
+        // Arrange
+        Long id = 123L;
+        UserModel userModel = UserModelFactory.createUserModelWithId(id);
+        when(userPersistencePort.getUserById(id)).thenReturn(Optional.of(userModel));
+
+        // Act
+        Optional<UserModel> result = userUseCase.getUserById(id);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(userModel, result.get());
+        verify(userPersistencePort, times(1)).getUserById(id);
+    }
+
+    @Test
+    void getUserById_shouldReturnEmptyOptionalWhenIdDoesNotExist() {
+        // Arrange
+        Long id = 456L;
+        when(userPersistencePort.getUserById(id)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<UserModel> result = userUseCase.getUserById(id);
+
+        // Assert
+        assertFalse(result.isPresent());
+        verify(userPersistencePort, times(1)).getUserById(id);
+    }
+
+
+    @Test
+    void getUserById_shouldReturnEmptyOptionalWhenIdIsNull() {
+        // Arrange
+        Long id = null;
+        when(userPersistencePort.getUserById(null)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<UserModel> result = userUseCase.getUserById(id);
+
+        // Assert
+        assertFalse(result.isPresent());
+        verify(userPersistencePort, times(1)).getUserById(null);
+    }
+
 
     @Test
     void saveUser_shouldThrowExceptionWhenEmailInvalid() {
@@ -190,7 +285,7 @@ class UserUseCaseTest {
 
         assertThrows(NullPointerException.class, () -> userUseCase.saveUser(userModel));
     }
-    
+
 
     @Test
     void saveUser_shouldThrowExceptionWhenPhoneNumberContainsLetters() {

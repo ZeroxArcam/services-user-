@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/")
+    @PostMapping("/create")
     @Operation(summary = Constants.SUMARY_ENDPOINT, description = Constants.SUMARY_DSCRIPTION_ENDPOINT)
     @ApiResponse(responseCode = "201", description = "User created", content = @Content(schema = @Schema(implementation = SaveUserResponse.class), examples = @ExampleObject(value = "User created")))
     @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = String.class), examples = @ExampleObject(value = "\"Name cannot exceed 50 characters.\"\n \"Description cannot exceed 90 characters.\" ")))

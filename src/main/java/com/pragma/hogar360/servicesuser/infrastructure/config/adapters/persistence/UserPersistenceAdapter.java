@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -59,6 +61,15 @@ public class UserPersistenceAdapter implements UserPersistencePort {
     @Override
     public boolean existsByPhoneNumber(String phoneNumber) {
         return userRepository.existsByPhoneNumber(phoneNumber);
+    }
+    @Override
+    public Optional<UserModel> findByEmail(String email) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByEmail(email);
+        return userEntityOptional.map(userEntityMapper::toModel);
+    }
+    public Optional<UserModel> getUserById(Long id){
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        return userEntityOptional.map(userEntityMapper::toModel);
     }
 
 //    @Override

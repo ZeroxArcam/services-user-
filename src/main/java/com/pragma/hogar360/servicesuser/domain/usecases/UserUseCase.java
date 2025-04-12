@@ -8,8 +8,10 @@ import com.pragma.hogar360.servicesuser.domain.ports.out.RolePersistencePort;
 import com.pragma.hogar360.servicesuser.domain.ports.out.UserPersistencePort;
 import com.pragma.hogar360.servicesuser.domain.utils.constants.DomainConstants;
 import com.pragma.hogar360.servicesuser.domain.utils.constants.Validation;
+
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Optional;
 
 public class UserUseCase implements UserServicePort {
     private final UserPersistencePort userPersistencePort;
@@ -36,6 +38,14 @@ public class UserUseCase implements UserServicePort {
         user.setPassword(encryptedPassword);
         System.out.println("Contraseña encriptada: " + encryptedPassword);
         return userPersistencePort.saveUser(user);
+    }
+    @Override
+    public Optional<UserModel> getUserByEmail(String email) {
+        return userPersistencePort.findByEmail(email);
+    }
+    @Override
+    public Optional<UserModel> getUserById(Long id){
+        return userPersistencePort.getUserById(id);
     }
 
     private void validateRoleExists(RoleModel role) {

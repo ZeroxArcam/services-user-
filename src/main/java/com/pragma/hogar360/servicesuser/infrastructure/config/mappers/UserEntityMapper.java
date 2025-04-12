@@ -10,11 +10,12 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserEntityMapper {
 
-    @Mapping(target = "id", ignore = true)
+    //@Mapping(target = "id", ignore = true)
+    @Mapping(source = "id" , target = "id")
     @Mapping(source = "role", target = "role")
     UserModel toModel(UserEntity userEntity);
 
-    @Mapping(target = "id", ignore = true)
+    @Mapping(source = "user.id", target = "id")
     @Mapping(source = "user.name", target = "name")
     @Mapping(source = "user.lastName", target = "lastName")
     @Mapping(source = "user.idNumber", target = "idNumber")
