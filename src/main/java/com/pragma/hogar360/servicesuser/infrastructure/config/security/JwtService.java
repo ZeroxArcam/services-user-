@@ -9,7 +9,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +45,7 @@ public class JwtService {
         extraClaims.put(Constants.ROLES_CLAIM, user.getRoleName() != null ? java.util.List.of(Constants.ROLE_PREFIX + user.getRoleName().toUpperCase()) : java.util.List.of());
         extraClaims.put(Constants.NAME_CLAIM, user.getName());
         extraClaims.put(Constants.LAST_NAME_CLAIM, user.getLastName());
+        extraClaims.put(Constants.EMAIL_CLAIM, user.getEmail());
 
         return Jwts
                 .builder()
@@ -70,6 +70,9 @@ public class JwtService {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
+    public String extractEmail(String token) {
+        return extractClaim(token, claims -> claims.get(Constants.EMAIL_CLAIM, String.class));
+    }
 
     private Claims extractAllClaims(String token) {
         return Jwts
@@ -84,4 +87,6 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+
 }

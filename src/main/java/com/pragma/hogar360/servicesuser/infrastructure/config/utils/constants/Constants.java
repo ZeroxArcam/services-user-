@@ -29,6 +29,8 @@ public final class Constants {
     public static final String AUTHENTICATION_SET_INFO = "✅ Authentication set in SecurityContextHolder for user ID: {} with authorities: {}";
     public static final String INVALID_USER_ID_FORMAT_ERROR = "❌ Invalid user ID format extracted from token subject: {}";
 
+    public static final String EMAIL_CLAIM = "email";
     public static final String NAME_CLAIM = "name";
     public static final String LAST_NAME_CLAIM = "lastName";
+
 }

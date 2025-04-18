@@ -1,12 +1,9 @@
 package com.pragma.hogar360.servicesuser.domain.usecases;
 
 import com.pragma.hogar360.servicesuser.domain.exceptions.*;
-import com.pragma.hogar360.servicesuser.domain.model.RoleModel;
 import com.pragma.hogar360.servicesuser.domain.model.UserModel;
-import com.pragma.hogar360.servicesuser.domain.ports.in.UserServicePort;
 import com.pragma.hogar360.servicesuser.domain.ports.out.RolePersistencePort;
 import com.pragma.hogar360.servicesuser.domain.ports.out.UserPersistencePort;
-import com.pragma.hogar360.servicesuser.factory.RoleModelFactory;
 import com.pragma.hogar360.servicesuser.factory.UserModelFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
                 });
 
         String roleName = user.getRoleName().toUpperCase();
-        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(Constants.ROLE_PREFIX + roleName)); // Usa la constante
+        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(Constants.ROLE_PREFIX + roleName));
 
         log.info(Constants.USER_LOADED_SUCCESSFULLY, user.getEmail());
         log.info(Constants.USER_ROLE_LOG, user.getRoleName());
