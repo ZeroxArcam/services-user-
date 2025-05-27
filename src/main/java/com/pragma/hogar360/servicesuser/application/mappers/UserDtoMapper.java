@@ -25,7 +25,6 @@ public interface UserDtoMapper {
 
     default UserResponse modelToResponse(UserModel model){
         return new UserResponse(
-                //Long id,String firstName,String lastName,String email,String password,String role
             model.getId(),
             model.getName(),
             model.getLastName(),
