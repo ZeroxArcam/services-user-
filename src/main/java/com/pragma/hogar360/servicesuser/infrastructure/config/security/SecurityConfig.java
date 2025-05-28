@@ -3,6 +3,7 @@ package com.pragma.hogar360.servicesuser.infrastructure.config.security;
 import com.pragma.hogar360.servicesuser.infrastructure.config.adapters.authentication.JwtAuthenticationFilter;
 import com.pragma.hogar360.servicesuser.infrastructure.config.adapters.authentication.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,6 +30,8 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserDetailsServiceImpl userDetailsService;
+    @Value("${cors.allowed-origins}")
+    private String allowedOriginsString;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -66,7 +69,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        if (allowedOriginsString != null && !allowedOriginsString.isEmpty()) {
+            configuration.setAllowedOrigins(Arrays.asList(allowedOriginsString.split(",")));
+        }
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
