@@ -1,13 +1,13 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="services-user [bootRun]" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="services-user TiDB" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="env">
         <map>
           <entry key="CORS_ALLOWED_ORIGINS" value="http://localhost:4200" />
-          <entry key="DB_PASSWORD" value="Zerox_1995" />
-          <entry key="DB_URL" value="jdbc:mysql://localhost:3306/services_user" />
-          <entry key="DB_USERNAME" value="root" />
-          <entry key="JWT_EXPIRATION:3600000" value="3600000" />
+          <entry key="DB_PASSWORD" value="AfjgLiA1mVZhaMoA" />
+          <entry key="DB_URL" value="jdbc:mysql://gateway01.us-east-1.prod.aws.tidbcloud.com:4000/test?sslMode=VERIFY_IDENTITY&amp;autoReconnect=true&amp;allowPublicKeyRetrieval=true" />
+          <entry key="DB_USERNAME" value="N5xTsY1GfCNKJmr.root" />
+          <entry key="JWT_EXPIRATION" value="3600000" />
           <entry key="JWT_SECRET" value="qjChvs5GKrfbSWFanKIM81EPaSTMrhtInMb6GWJv0MfhxcC1KEyCqj6eTnl6UKRbTpzInXmW86fTL0RVNjKV5A==" />
         </map>
       </option>
